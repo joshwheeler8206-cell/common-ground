@@ -1,0 +1,578 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Common Ground</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Archivo:wght@600;700;800;900&display=swap">
+<style>
+/* Layout: phone-first single column. Each section owns one color from the Deaf flag family (ultramarine, turquoise, sun),
+   used on its hero banner, buttons and active tab, so you always know where you are by color alone. Floating tab bar. */
+:root{
+  --bg:#ECEFF7; --surface:#FFFFFF; --raise:#F6F7FC; --ink:#10163A; --muted:#58607F; --line:#DDE2EF;
+  --ultra:#2433A6; --ultra-ink:#FFFFFF;
+  --teal:#0B7F77;  --teal-ink:#FFFFFF;
+  --coral:#CC4521; --coral-ink:#FFFFFF;
+  --plum:#6B33C4;  --plum-ink:#FFFFFF;
+  --mint:#1D7F4A;  --mint-ink:#FFFFFF;
+  --sun:#FFC53D;   --sun-ink:#10163A;
+  --rose:#C2306B;  --rose-ink:#FFFFFF;
+  --good:#1D7F4A; --wait:#9A5B00; --bad:#B23A1E;
+  --navbg:#10163A; --navfg:#B9BFDA;
+  --shadow:0 1px 2px rgb(16 22 58/.06),0 8px 24px rgb(16 22 58/.07);
+  --display:"Archivo","Helvetica Neue",Arial,"Segoe UI",system-ui,sans-serif;
+  --body:"Atkinson Hyperlegible","Segoe UI",system-ui,sans-serif;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#090C1F; --surface:#141A36; --raise:#1A2142; --ink:#EEF0FA; --muted:#A3AACB; --line:#262E55;
+  --ultra:#8390FF; --ultra-ink:#090C1F; --teal:#3FD9CC; --teal-ink:#090C1F; --coral:#FF8A6E; --coral-ink:#090C1F;
+  --plum:#B590FF; --plum-ink:#090C1F; --mint:#52D98F; --mint-ink:#090C1F; --sun:#FFD166; --sun-ink:#090C1F; --rose:#FF7AB0; --rose-ink:#090C1F;
+  --good:#52D98F; --wait:#FFC56B; --bad:#FF8A6E; --navbg:#1E2650; --navfg:#A3AACB;
+  --shadow:0 1px 2px rgb(0 0 0/.3),0 10px 30px rgb(0 0 0/.35); color-scheme:dark }}
+:root[data-theme="dark"]{
+  --bg:#090C1F; --surface:#141A36; --raise:#1A2142; --ink:#EEF0FA; --muted:#A3AACB; --line:#262E55;
+  --ultra:#8390FF; --ultra-ink:#090C1F; --teal:#3FD9CC; --teal-ink:#090C1F; --coral:#FF8A6E; --coral-ink:#090C1F;
+  --plum:#B590FF; --plum-ink:#090C1F; --mint:#52D98F; --mint-ink:#090C1F; --sun:#FFD166; --sun-ink:#090C1F; --rose:#FF7AB0; --rose-ink:#090C1F;
+  --good:#52D98F; --wait:#FFC56B; --bad:#FF8A6E; --navbg:#1E2650; --navfg:#A3AACB;
+  --shadow:0 1px 2px rgb(0 0 0/.3),0 10px 30px rgb(0 0 0/.35); color-scheme:dark }
+
+body{--sec:var(--ultra);--sec-ink:var(--ultra-ink)}
+body[data-sec="teal"]{--sec:var(--teal);--sec-ink:var(--teal-ink)}
+body[data-sec="coral"]{--sec:var(--coral);--sec-ink:var(--coral-ink)}
+body[data-sec="plum"]{--sec:var(--plum);--sec-ink:var(--plum-ink)}
+body[data-sec="mint"]{--sec:var(--mint);--sec-ink:var(--mint-ink)}
+body[data-sec="sun"]{--sec:var(--sun);--sec-ink:var(--sun-ink)}
+body[data-sec="rose"]{--sec:var(--rose);--sec-ink:var(--rose-ink)}
+
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font:17px/1.5 var(--body);-webkit-font-smoothing:antialiased}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--bg)}
+h1,h2,h3{font-family:var(--display);line-height:1.05;text-wrap:balance;margin:0;letter-spacing:-.02em}
+h1{font-size:clamp(34px,9vw,50px);font-weight:800;letter-spacing:-.02em;line-height:1.06}
+h2{font-size:23px;font-weight:800}
+h3{font-size:19px;font-weight:700;letter-spacing:-.01em}
+p{margin:0}
+a{color:inherit}
+.wrap{max-width:680px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+
+/* header */
+header.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:9;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)}
+header.top .wrap{display:flex;align-items:center;gap:10px;padding-block:12px}
+.mark{width:36px;height:36px;border-radius:11px;background:var(--ultra);display:grid;place-items:center;flex-shrink:0;transform:rotate(-6deg)}
+.mark svg{width:22px;height:22px}
+.brand{font-family:var(--display);font-weight:800;font-size:20px;letter-spacing:-.02em}
+.proto{margin-left:auto;font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;border:1.5px solid var(--line);color:var(--muted);padding:4px 10px;border-radius:99px}
+
+main.wrap{padding-block:6px 132px;display:flex;flex-direction:column;gap:16px}
+
+/* hero banner */
+.hero{position:relative;overflow:hidden;background:var(--sec);color:var(--sec-ink);border-radius:28px;padding:26px 22px 24px;display:flex;flex-direction:column;gap:12px;isolation:isolate}
+.hero::before{content:"";position:absolute;inset:0;z-index:-1;opacity:.16;background-image:radial-gradient(currentColor 1.4px,transparent 1.6px);background-size:16px 16px;-webkit-mask-image:linear-gradient(115deg,transparent 35%,#000 90%);mask-image:linear-gradient(115deg,transparent 35%,#000 90%)}
+.hero .big{position:absolute;right:-28px;bottom:-34px;width:190px;height:190px;z-index:-1;opacity:.2;transform:rotate(-12deg)}
+.hero .big svg{width:100%;height:100%;stroke:currentColor}
+.hero .tag{align-self:flex-start;font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;background:color-mix(in srgb,var(--sec-ink) 16%,transparent);padding:5px 11px;border-radius:99px}
+.hero h1{max-width:12ch}
+.hero p{max-width:40ch;opacity:.92;font-size:17px}
+.hl{white-space:nowrap;background:#FFC53D;color:#10163A;padding:0 .14em;border-radius:.18em;-webkit-box-decoration-break:clone;box-decoration-break:clone}
+body[data-sec="sun"] .hl{background:#10163A;color:#FFC53D}
+.hero-stats{display:flex;gap:10px;flex-wrap:wrap;margin-top:4px}
+.hero-stats div{background:color-mix(in srgb,var(--sec-ink) 13%,transparent);border-radius:14px;padding:8px 12px;font-size:14px}
+.hero-stats b{font-family:var(--body);font-weight:700;font-size:24px;display:block;line-height:1}
+
+/* surfaces */
+.card{background:var(--surface);border-radius:22px;padding:18px;display:flex;flex-direction:column;gap:14px;min-width:0;box-shadow:var(--shadow)}
+.card-head{display:flex;align-items:baseline;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.eyebrow{font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.lede{color:var(--muted)}
+.meta{font-size:14.5px;color:var(--muted)}
+.empty{color:var(--muted);font-size:15px;padding:4px 0}
+
+/* home bento */
+.bento{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.tile{all:unset;cursor:pointer;position:relative;overflow:hidden;background:var(--surface);border-radius:22px;padding:16px;display:flex;flex-direction:column;gap:4px;min-height:136px;box-shadow:var(--shadow);transition:transform .18s ease}
+.tile:hover{transform:translateY(-3px)}
+.tile .ic{width:44px;height:44px;border-radius:14px;background:var(--c);display:grid;place-items:center;margin-bottom:auto}
+.tile .ic svg{width:24px;height:24px;stroke:var(--ci)}
+.tile b{font-family:var(--display);font-size:18px;font-weight:700;letter-spacing:-.01em;line-height:1.1;margin-top:14px}
+.tile span{font-size:14px;color:var(--muted)}
+.tile.wide{grid-column:1/-1;background:var(--c);color:var(--ci);flex-direction:row;align-items:center;gap:16px;min-height:0;padding:18px}
+.tile.wide .ic{background:color-mix(in srgb,var(--ci) 18%,transparent);margin:0;flex-shrink:0}
+.tile.wide b{margin:0;font-size:20px}
+.tile.wide span{color:inherit;opacity:.85}
+.tile .arrow{margin-left:auto;font-family:var(--display);font-size:24px;font-weight:800}
+.tile:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible,a:focus-visible{outline:3px solid var(--sun);outline-offset:2px}
+
+/* segmented + filters */
+.seg{display:flex;gap:4px;background:var(--surface);padding:5px;border-radius:16px;box-shadow:var(--shadow);overflow-x:auto}
+.seg button{all:unset;cursor:pointer;flex:1;text-align:center;padding:10px 12px;border-radius:12px;font-weight:700;font-size:15px;color:var(--muted);white-space:nowrap}
+.seg button[aria-pressed="true"]{background:var(--sec);color:var(--sec-ink)}
+.filters{display:flex;gap:8px;overflow-x:auto;padding-bottom:2px;scrollbar-width:none}
+.filters::-webkit-scrollbar{display:none}
+.filter{all:unset;cursor:pointer;flex-shrink:0;font-size:14.5px;font-weight:700;padding:8px 15px;border-radius:99px;background:var(--surface);color:var(--muted);box-shadow:var(--shadow)}
+.filter[aria-pressed="true"]{background:var(--ink);color:var(--bg)}
+.filters.wrapit{flex-wrap:wrap;overflow:visible}
+
+/* forms */
+form{display:flex;flex-direction:column;gap:14px}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media (max-width:460px){.row{grid-template-columns:1fr}}
+label.f,.flabel{display:flex;flex-direction:column;gap:6px;font-weight:700;font-size:14.5px;min-width:0}
+input,select,textarea{font:inherit;font-size:17px;color:var(--ink);background:var(--raise);border:2px solid transparent;border-radius:14px;padding:12px 14px;width:100%;min-width:0;transition:border-color .15s}
+input:focus,select:focus,textarea:focus{border-color:var(--sec);outline:none}
+textarea{min-height:90px;resize:vertical}
+.checks{display:flex;flex-wrap:wrap;gap:8px}
+.checks label{display:flex;align-items:center;gap:8px;background:var(--raise);border:2px solid transparent;border-radius:99px;padding:8px 14px;font-size:15px;cursor:pointer}
+.checks label:has(input:checked){border-color:var(--sec);background:color-mix(in srgb,var(--sec) 12%,var(--surface))}
+.checks input{width:18px;height:18px;accent-color:var(--sec)}
+
+/* buttons */
+.btn{all:unset;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:8px;background:var(--sec);color:var(--sec-ink);font-weight:700;padding:13px 22px;border-radius:99px;text-align:center;transition:transform .12s ease,filter .12s}
+.btn:hover{filter:brightness(1.06)}
+.btn:active{transform:scale(.97)}
+.btn.ghost{background:transparent;color:var(--ink);box-shadow:inset 0 0 0 2px var(--line)}
+.btn.dark{background:var(--ink);color:var(--bg)}
+.btn.small{padding:9px 16px;font-size:15px}
+.btns{display:flex;flex-wrap:wrap;gap:8px}
+
+/* chips */
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{font-size:13px;font-weight:700;padding:4px 10px;border-radius:99px;background:color-mix(in srgb,var(--sec) 13%,var(--surface));color:var(--ink)}
+.chip.plain{background:var(--raise);color:var(--muted)}
+.status{display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:700;color:var(--st)}
+.status::before{content:"";width:9px;height:9px;border-radius:50%;background:var(--st);box-shadow:0 0 0 3px color-mix(in srgb,var(--st) 22%,transparent)}
+.sample{font-size:10.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);background:var(--raise);padding:2px 7px;border-radius:6px;vertical-align:2px;margin-left:4px}
+
+/* list rows with calendar date block */
+.list{display:flex;flex-direction:column;gap:10px}
+.item{display:flex;gap:14px;align-items:flex-start;padding:14px;border-radius:18px;background:var(--raise);min-width:0}
+.item .body{flex:1;min-width:0;display:flex;flex-direction:column;gap:6px}
+.item .top{display:flex;gap:10px;align-items:flex-start;justify-content:space-between;flex-wrap:wrap}
+.item .top b{font-size:17px;line-height:1.25}
+.datebox{flex-shrink:0;width:58px;border-radius:14px;overflow:hidden;text-align:center;background:var(--surface);box-shadow:var(--shadow)}
+.datebox span{display:block;background:var(--sec);color:var(--sec-ink);font-size:11px;font-weight:700;letter-spacing:.1em;padding:3px 0}
+.datebox b{display:block;font-family:var(--body);font-size:26px;font-weight:700;line-height:1;padding:6px 0 7px;font-variant-numeric:tabular-nums}
+.avatar{flex-shrink:0;width:48px;height:48px;border-radius:16px;display:grid;place-items:center;font-family:var(--display);font-weight:800;font-size:20px;background:var(--c);color:var(--ci)}
+.avatar svg{width:24px;height:24px;stroke:var(--ci)}
+.when{font-variant-numeric:tabular-nums}
+.stars{color:var(--wait);letter-spacing:1px;font-size:15px;white-space:nowrap}
+.dist{font-family:var(--body);font-weight:700;font-size:13px;background:var(--surface);padding:3px 9px;border-radius:99px;white-space:nowrap}
+
+details.add{border-radius:18px;background:var(--raise);padding:4px 16px}
+details.add summary{cursor:pointer;font-weight:700;padding:12px 0;list-style:none;display:flex;align-items:center;gap:10px}
+details.add summary::-webkit-details-marker{display:none}
+details.add summary::before{content:"+";display:grid;place-items:center;width:28px;height:28px;border-radius:50%;background:var(--sec);color:var(--sec-ink);font-size:20px;line-height:1}
+details.add[open] summary::before{content:"\2212"}
+details.add[open]{padding-bottom:16px}
+
+.callout{background:var(--ink);color:var(--bg);border-radius:20px;padding:16px 18px;display:flex;gap:12px;align-items:flex-start}
+.callout b{color:var(--sun)}
+body[data-theme] .callout b{color:var(--sun)}
+.script{background:var(--raise);border-radius:16px;padding:16px;white-space:pre-wrap;font-size:15.5px;line-height:1.55}
+.warnbox{background:color-mix(in srgb,var(--bad) 14%,var(--surface));color:var(--bad);border-radius:14px;padding:11px 13px;font-weight:700;font-size:15px}
+.link{font-weight:700;color:var(--ink);text-decoration:none;display:inline-flex;gap:6px;align-items:center;border-bottom:2px solid var(--sec);align-self:flex-start;padding-bottom:1px}
+
+/* feedback */
+.fb{background:transparent;box-shadow:none;border:2px dashed var(--line)}
+.fb textarea{background:var(--surface)}
+
+/* show-to-talk */
+.phrases{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px}
+.phrase{all:unset;cursor:pointer;background:var(--surface);border-radius:20px;padding:16px;font-family:var(--display);font-weight:700;font-size:17px;line-height:1.2;letter-spacing:-.01em;min-height:96px;box-shadow:var(--shadow);display:flex;flex-direction:column;justify-content:space-between;gap:10px;transition:transform .15s}
+.phrase:hover{transform:translateY(-2px)}
+.phrase small{font-family:var(--body);font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.show{position:fixed;inset:0;z-index:30;background:#FFC53D;color:#10163A;display:flex;flex-direction:column;gap:16px;
+  padding:calc(18px + env(safe-area-inset-top,0px)) max(18px,env(safe-area-inset-right,0px)) calc(18px + env(safe-area-inset-bottom,0px)) max(18px,env(safe-area-inset-left,0px))}
+.show .text{flex:1;display:grid;place-items:center;text-align:center;font-family:var(--display);font-weight:800;line-height:1.08;letter-spacing:-.02em;overflow:auto;transition:transform .4s cubic-bezier(.2,.8,.2,1)}
+.show .text.flip{transform:rotate(180deg)}
+.show .bar{display:flex;gap:8px;flex-wrap:wrap;justify-content:center}
+.show .btn{background:#10163A;color:#FFC53D}
+.show .btn.ghost{background:transparent;color:#10163A;box-shadow:inset 0 0 0 2px #10163A}
+
+/* floating nav */
+nav.tabs{position:fixed;left:0;right:0;bottom:calc(12px + env(safe-area-inset-bottom,0px));z-index:9;padding-left:max(12px,env(safe-area-inset-left,0px));padding-right:max(12px,env(safe-area-inset-right,0px));pointer-events:none}
+nav.tabs .bar{pointer-events:auto;max-width:560px;margin:0 auto;background:var(--navbg);border-radius:26px;padding:6px;display:grid;grid-template-columns:repeat(7,1fr);gap:2px;box-shadow:0 12px 32px rgb(9 12 31/.35)}
+nav.tabs a{display:flex;flex-direction:column;align-items:center;gap:2px;text-decoration:none;color:var(--navfg);font-size:10.5px;font-weight:700;padding:7px 0 6px;border-radius:20px;min-width:0;transition:background .2s,color .2s}
+nav.tabs a svg{width:22px;height:22px;stroke:currentColor}
+nav.tabs a[aria-current="page"]{background:var(--sec);color:var(--sec-ink)}
+
+.toast{position:fixed;left:50%;bottom:calc(96px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:12px 20px;border-radius:99px;font-weight:700;z-index:20;max-width:calc(100% - 32px);text-align:center;box-shadow:var(--shadow);animation:pop .25s ease-out}
+.near{position:fixed;left:max(12px,env(safe-area-inset-left,0px));right:max(12px,env(safe-area-inset-right,0px));top:calc(66px + env(safe-area-inset-top,0px));z-index:25;max-width:560px;margin:0 auto;display:flex;gap:12px;align-items:flex-start;background:var(--ink);color:var(--bg);border-radius:22px;padding:16px;box-shadow:0 16px 40px rgb(9 12 31/.4);animation:drop .4s cubic-bezier(.2,.8,.2,1)}
+.near .ping{position:relative;width:44px;height:44px;border-radius:14px;background:var(--mint);display:grid;place-items:center;flex-shrink:0}
+.near .ping svg{width:24px;height:24px;stroke:var(--mint-ink)}
+.near .ping::after{content:"";position:absolute;inset:-4px;border-radius:18px;border:2px solid var(--mint);animation:ring 1.6s ease-out infinite}
+.near .meta{color:color-mix(in srgb,var(--bg) 70%,transparent)}
+.near .chip{background:color-mix(in srgb,var(--bg) 14%,transparent);color:var(--bg)}
+.near .x{all:unset;cursor:pointer;margin-left:auto;font-size:26px;line-height:1;opacity:.7;padding:0 4px}
+@keyframes drop{from{transform:translateY(-20px) scale(.97)}to{transform:none}}
+@keyframes pop{from{transform:translate(-50%,8px)}to{transform:translate(-50%,0)}}
+@keyframes ring{from{transform:scale(.9);opacity:1}to{transform:scale(1.3);opacity:0}}
+@keyframes rise{from{transform:translateY(10px)}to{transform:none}}
+main.wrap>*{animation:rise .35s cubic-bezier(.2,.8,.2,1) both}
+main.wrap>*:nth-child(2){animation-delay:.04s}main.wrap>*:nth-child(3){animation-delay:.08s}main.wrap>*:nth-child(4){animation-delay:.12s}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
+</style>
+</head><body>
+
+<header class="top"><div class="wrap">
+  <div class="mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="#FFC53D" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 11V6a1.5 1.5 0 0 1 3 0v4"/><path d="M10 10V4.5a1.5 1.5 0 0 1 3 0V10"/><path d="M13 10V5.5a1.5 1.5 0 0 1 3 0V12"/><path d="M16 9.5a1.5 1.5 0 0 1 3 0V15a6 6 0 0 1-6 6h-1a6 6 0 0 1-5-2.7L4.3 14a1.5 1.5 0 0 1 2.4-1.8L8 14"/></svg></div>
+  <div class="brand">Common Ground</div>
+  <span class="proto">Prototype</span>
+</div></header>
+
+<main class="wrap" id="view"></main>
+
+<nav class="tabs" aria-label="Sections"><div class="bar" id="tabs"></div></nav>
+<div id="overlay"></div>
+<div id="toastHost"></div>
+<div id="alertHost"></div>
+
+<script>
+(function(){
+"use strict";
+var KEY="cg_proto_v1";
+function iso(n){var d=new Date();d.setDate(d.getDate()+n);return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0")}
+function parseD(s){var p=s.split("-");return new Date(+p[0],+p[1]-1,+p[2])}
+function fmtDate(s){if(!s)return"";return parseD(s).toLocaleDateString(undefined,{weekday:"short",month:"short",day:"numeric"})}
+function fmtTime(t){if(!t)return"";var p=t.split(":");var h=+p[0],m=p[1];return((h%12)||12)+":"+m+(h<12?" AM":" PM")}
+function esc(s){return String(s==null?"":s).replace(/[&<>"']/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]})}
+function uid(){return Math.random().toString(36).slice(2,9)}
+function dateBox(s){var d=parseD(s);return '<div class="datebox" aria-hidden="true"><span>'+d.toLocaleDateString(undefined,{month:"short"}).toUpperCase()+'</span><b>'+d.getDate()+'</b></div>'}
+
+var ICONS={
+ home:'<path d="M3 11l9-7 9 7"/><path d="M5 10v10h14V10"/>',
+ interp:'<circle cx="8" cy="7" r="3"/><path d="M2 20a6 6 0 0 1 12 0"/><path d="M16 4h5v5"/><path d="M21 4l-5 5"/><path d="M15 14h6"/><path d="M15 18h4"/>',
+ travel:'<path d="M2 16l20-8-3-2-7 3-5-3-2 1 4 4-5 2-2-1-1 1z"/><path d="M3 21h18"/>',
+ events:'<rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/>',
+ places:'<path d="M12 21s-7-6.2-7-12a7 7 0 0 1 14 0c0 5.8-7 12-7 12z"/><circle cx="12" cy="9" r="2.5"/>',
+ cards:'<rect x="3" y="4" width="14" height="11" rx="2"/><path d="M7 19h12a2 2 0 0 0 2-2V8"/><path d="M7 9h6M7 12h4"/>',
+ free:'<path d="M20 12v9H4v-9"/><rect x="2" y="7" width="20" height="5"/><path d="M12 21V7"/><path d="M12 7H8a2.5 2.5 0 0 1 0-5c3 0 4 5 4 5z"/><path d="M12 7h4a2.5 2.5 0 0 0 0-5c-3 0-4 5-4 5z"/>',
+ hotel:'<path d="M3 21V7a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v14"/><path d="M3 15h18"/><path d="M7 11h3"/>',
+ person:'<circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/>'
+};
+function icon(n){return '<svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'+ICONS[n]+'</svg>'}
+
+var VIEWS=[
+ {id:"home",label:"Home",ic:"home",sec:"ultra"},
+ {id:"interpreters",label:"Interpret",ic:"interp",sec:"teal"},
+ {id:"travel",label:"Travel",ic:"travel",sec:"coral"},
+ {id:"events",label:"Events",ic:"events",sec:"plum"},
+ {id:"places",label:"Places",ic:"places",sec:"mint"},
+ {id:"cards",label:"Cards",ic:"cards",sec:"sun"},
+ {id:"free",label:"Free",ic:"free",sec:"rose"}
+];
+function secOf(id){return VIEWS.filter(function(v){return v.id===id})[0].sec}
+function hero(view,tag,title,text,extra){return '<section class="hero"><div class="big" aria-hidden="true">'+icon(VIEWS.filter(function(v){return v.id===view})[0].ic)+'</div><span class="tag">'+tag+'</span><h1>'+title+'</h1>'+(text?'<p>'+text+'</p>':'')+(extra||'')+'</section>'}
+
+function seed(){return{
+ interpreters:[
+  {id:"i1",name:"Dana Ruiz",certs:["NIC","EIPA 4.2"],areas:"Medical, school",gender:"F",sample:true},
+  {id:"i2",name:"Marcus Bell",certs:["NIC Advanced"],areas:"Legal, work meetings",gender:"M",sample:true},
+  {id:"i3",name:"Tina Okafor",certs:["CDI"],areas:"Deaf interpreter, medical, mental health",gender:"F",sample:true},
+  {id:"i4",name:"Ben Larsen",certs:["BEI Basic"],areas:"Church, community events",gender:"M",sample:true}
+ ],
+ bookings:[
+  {id:"b1",date:iso(3),start:"09:30",end:"10:30",place:"Family clinic, 2nd floor",mode:"In person",setting:"Medical",pref:"Female interpreter",cdi:false,notes:"Follow-up visit, bring med list",status:"Confirmed",interp:"i1",sample:true},
+  {id:"b2",date:iso(9),start:"14:00",end:"16:00",place:"Video (VRI) - link sent by email",mode:"Video (VRI)",setting:"Work",pref:"No preference",cdi:false,notes:"Quarterly team meeting",status:"Requested",interp:"",sample:true}
+ ],
+ trips:[
+  {id:"t1",dest:"Chicago, IL",depart:iso(24),ret:iso(27),people:2,needs:["Visual fire alarm","Bed shaker alarm","Captioned TV","Text check-in"],notes:"Want an ASL museum tour if possible",status:"Planning",sample:true}
+ ],
+ stays:[
+  {name:"Riverside Suites",city:"Des Moines, IA",feat:["ADA kit at front desk","Visual fire alarm","Door-knock light","Text front desk"],tip:"Ask for room 2xx, the kit is pre-installed",sample:true},
+  {name:"Lakeview Inn",city:"Chicago, IL",feat:["Visual fire alarm","Bed shaker alarm","Captioned TV"],tip:"Request kit at booking, not at check-in",sample:true},
+  {name:"Harbor Hotel",city:"Washington, DC",feat:["Staff signs","ADA kit at front desk","Text front desk"],tip:"Near Gallaudet, Deaf staff at desk some shifts",sample:true}
+ ],
+ events:[
+  {id:"e1",title:"ASL Coffee Night",type:"Social",date:iso(2),time:"18:30",where:"Downtown coffee shop",host:"Local Deaf club",note:"Voice-off, all signing levels welcome",sample:true},
+  {id:"e2",title:"Deaf Bowling League",type:"Sports",date:iso(5),time:"19:00",where:"Lucky Lanes",host:"League captains",note:"Teams of 4, new bowlers welcome",sample:true},
+  {id:"e3",title:"Interpreted Sunday Service",type:"Faith",date:iso(4),time:"10:00",where:"First Community Church",host:"Church Deaf ministry",note:"Interpreter on the left side, front 3 rows",sample:true},
+  {id:"e4",title:"Beginner ASL for Families",type:"Class",date:iso(8),time:"18:00",where:"Public library, room B",host:"Deaf instructor",note:"Free, 6 weeks, bring your hearing family",sample:true},
+  {id:"e5",title:"Captioned Movie Night",type:"Social",date:iso(12),time:"19:15",where:"Cinema 8 (open captions)",host:"Deaf club",note:"Open captions on screen, no device needed",sample:true}
+ ],
+ places:[
+  {id:"p1",name:"Corner Cafe",kind:"Restaurant",badges:["Text ordering","Writes notes happily","Visual pager"],note:"Order on the tablet at the counter",rating:5,dist:0.2,sample:true},
+  {id:"p2",name:"Main St Pharmacy",kind:"Pharmacy",badges:["Text when ready","Staff signs"],note:"Pharmacist knows basic ASL",rating:5,dist:0.6,sample:true},
+  {id:"p3",name:"Burger Stop",kind:"Drive-thru",badges:["Pay at window, skip speaker"],note:"Pull to the window and show your card",rating:3,dist:1.4,sample:true},
+  {id:"p4",name:"Fitness Hub",kind:"Gym",badges:["Captions on TVs","Visual alarm"],note:"Captions on if you ask the desk",rating:4,dist:2.1,sample:true}
+ ],
+ customCards:[],
+ feedback:[]
+}}
+
+var S;
+try{S=JSON.parse(localStorage.getItem(KEY)||"null")}catch(e){S=null}
+if(!S||!S.bookings)S=seed();
+function save(){try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}}
+
+var ui={who:[],rcat:"All",nearIdx:-1,interpTab:"book",eventFilter:"All",placeFilter:"All",placeQuery:"",cardCat:"Doctor"};
+var PALETTE=["teal","coral","plum","mint","ultra","rose"];
+function colorFor(s){var h=0;for(var i=0;i<s.length;i++)h=(h*31+s.charCodeAt(i))>>>0;var c=PALETTE[h%PALETTE.length];return '--c:var(--'+c+');--ci:var(--'+c+'-ink)'}
+
+function toast(msg){var h=document.getElementById("toastHost");h.innerHTML='<div class="toast" role="status">'+esc(msg)+'</div>';clearTimeout(toast.t);toast.t=setTimeout(function(){h.innerHTML=""},2600)}
+
+function interpName(id){var i=S.interpreters.filter(function(x){return x.id===id})[0];return i?i.name:""}
+function statusChip(s){var c=s==="Confirmed"?"--good":s==="Cancelled"?"--bad":"--wait";return '<span class="status" style="--st:var('+c+')">'+esc(s)+'</span>'}
+function sampleTag(o){return o.sample?'<span class="sample">Sample</span>':""}
+function upcoming(list){var t=iso(0);return list.filter(function(x){return x.date>=t}).sort(function(a,b){return(a.date+(a.start||a.time||"")).localeCompare(b.date+(b.start||b.time||""))})}
+
+function feedbackBox(where){
+ return '<section class="card fb"><div class="eyebrow">Prototype feedback</div><h3>What would you change here?</h3>'+
+ '<form data-form="feedback" data-where="'+esc(where)+'"><label class="f" for="fb-'+where+'"><span class="meta">Anything missing, confusing or wrong. Or what you love.</span><textarea id="fb-'+where+'" placeholder="Type your thoughts..."></textarea></label><div class="btns"><button class="btn dark small" type="submit">Save note</button></div></form></section>'
+}
+
+/* ---------- HOME ---------- */
+function vHome(){
+ var nb=upcoming(S.bookings)[0], ne=upcoming(S.events)[0];
+ function t(view,title,sub,wide){var sec=secOf(view),ic=VIEWS.filter(function(v){return v.id===view})[0].ic;
+  return '<button class="tile'+(wide?' wide':'')+'" data-go="'+view+'" style="--c:var(--'+sec+');--ci:var(--'+sec+'-ink)"><span class="ic">'+icon(ic)+'</span>'+(wide?'<div><b>'+title+'</b><br><span>'+sub+'</span></div><span class="arrow" aria-hidden="true">&rarr;</span>':'<b>'+title+'</b><span>'+sub+'</span>')+'</button>'}
+ var fb=S.feedback.length?'<div class="list">'+S.feedback.slice().reverse().map(function(f){return '<div class="item"><div class="body"><div class="meta">'+esc(f.where)+' &middot; '+esc(f.at)+'</div><div>'+esc(f.text)+'</div></div></div>'}).join("")+'</div><div class="btns"><button class="btn dark small" data-act="copyFeedback">Copy all notes</button><button class="btn ghost small" data-act="clearFeedback">Clear notes</button></div>':'<p class="empty">No notes yet. Every screen has a feedback box at the bottom.</p>';
+ var up='';
+ if(nb)up+='<div class="item" style="--sec:var(--teal);--sec-ink:var(--teal-ink)">'+dateBox(nb.date)+'<div class="body"><div class="top"><b>Interpreter &middot; '+esc(nb.setting)+'</b>'+statusChip(nb.status)+'</div><div class="meta when">'+fmtTime(nb.start)+'&ndash;'+fmtTime(nb.end)+(nb.interp?' &middot; '+esc(interpName(nb.interp)):'')+'</div></div></div>';
+ if(ne)up+='<div class="item" style="--sec:var(--plum);--sec-ink:var(--plum-ink)">'+dateBox(ne.date)+'<div class="body"><div class="top"><b>'+esc(ne.title)+'</b><span class="chip plain">'+esc(ne.type)+'</span></div><div class="meta when">'+fmtTime(ne.time)+' &middot; '+esc(ne.where)+'</div></div></div>';
+ return hero("home","Deaf-first &middot; text &amp; visual","Less <span class=\"hl\">phone tag.</span> More life.","Book interpreters, plan trips, find your people and the places that get it. No calls needed, ever.",
+   '<div class="hero-stats"><div><b>'+upcoming(S.events).length+'</b>events soon</div><div><b>'+S.places.length+'</b>Deaf-friendly places</div><div><b>'+RES.length+'</b>free programs</div></div>')+
+ '<div class="bento">'+
+   t("interpreters","Book an interpreter","Request, track and confirm without a single phone call",true)+
+   t("travel","Plan a trip","Stays with the alert kit ready")+
+   t("events","Events","ASL nights, classes, church")+
+   t("places","Places","Who texts, signs, captions")+
+   t("cards","Show-to-talk","Big text for any counter")+
+   t("free","Free stuff &amp; deals","Free devices, discounts and your rights under the law",true)+
+ '</div>'+
+ '<section class="card"><div class="card-head"><h2>Coming up</h2><span class="eyebrow">Next 2 weeks</span></div><div class="list">'+(up||'<p class="empty">Nothing on the calendar yet.</p>')+'</div></section>'+
+ '<section class="card"><div class="card-head"><h2>Feedback so far</h2><span class="eyebrow">'+S.feedback.length+' note'+(S.feedback.length===1?'':'s')+'</span></div>'+fb+'</section>'+
+ '<div class="btns" style="justify-content:center"><button class="btn ghost small" data-act="reset">Reset demo data</button></div><p class="meta" style="text-align:center">Everything here is sample data, saved only on this device.</p>';
+}
+
+/* ---------- INTERPRETERS ---------- */
+function vInterp(){
+ var seg='<div class="seg" role="group" aria-label="Interpreter views">'+[["book","Book"],["mine","My requests"],["agency","Agency view"]].map(function(s){return '<button data-interp="'+s[0]+'" aria-pressed="'+(ui.interpTab===s[0])+'">'+s[1]+'</button>'}).join("")+'</div>';
+ var body="";
+ if(ui.interpTab==="book"){
+  body='<section class="card"><h2>Request an interpreter</h2>'+
+  '<form data-form="booking">'+
+  '<div class="row"><label class="f" for="bk-date">Date<input id="bk-date" type="date" required value="'+iso(7)+'"></label>'+
+  '<label class="f" for="bk-setting">Setting<select id="bk-setting"><option>Medical</option><option>Work</option><option>School</option><option>Legal</option><option>Church</option><option>Personal / family</option></select></label></div>'+
+  '<div class="row"><label class="f" for="bk-start">Start<input id="bk-start" type="time" required value="10:00"></label><label class="f" for="bk-end">End<input id="bk-end" type="time" required value="11:00"></label></div>'+
+  '<label class="f" for="bk-mode">How<select id="bk-mode"><option>In person</option><option>Video (VRI)</option></select></label>'+
+  '<label class="f" for="bk-place">Where<input id="bk-place" placeholder="Address, room, or video link" required></label>'+
+  '<label class="f" for="bk-pref">Interpreter preference<select id="bk-pref"><option>No preference</option><option>Female interpreter</option><option>Male interpreter</option>'+S.interpreters.map(function(i){return '<option>Ask for '+esc(i.name)+'</option>'}).join("")+'</select></label>'+
+  '<div class="checks"><label><input type="checkbox" id="bk-cdi"> Team with a Deaf interpreter (CDI)</label></div>'+
+  '<label class="f" for="bk-notes">Notes for the interpreter<textarea id="bk-notes" placeholder="Topic, names, terms they should know"></textarea></label>'+
+  '<div class="btns"><button class="btn" type="submit">Send request &rarr;</button></div></form></section>';
+ } else if(ui.interpTab==="mine"){
+  var list=S.bookings.slice().sort(function(a,b){return(a.date+a.start).localeCompare(b.date+b.start)});
+  body='<section class="card"><div class="card-head"><h2>My requests</h2><span class="eyebrow">'+list.length+' total</span></div><div class="list">'+(list.length?list.map(function(b){
+   return '<div class="item">'+dateBox(b.date)+'<div class="body"><div class="top"><b>'+esc(b.setting)+' &middot; '+esc(b.mode)+sampleTag(b)+'</b>'+statusChip(b.status)+'</div>'+
+   '<div class="meta when">'+fmtTime(b.start)+'&ndash;'+fmtTime(b.end)+' &middot; '+esc(b.place)+'</div>'+
+   (b.interp?'<div><b>'+esc(interpName(b.interp))+'</b> <span class="meta">is your interpreter</span></div>':'<div class="meta">Waiting for the agency to assign someone.</div>')+
+   (b.status!=="Cancelled"?'<div class="btns"><button class="btn ghost small" data-act="cancelBooking" data-id="'+b.id+'">Cancel request</button></div>':'')+'</div></div>'}).join(""):'<p class="empty">No requests yet.</p>')+'</div></section>';
+ } else {
+  var open=S.bookings.filter(function(b){return b.status==="Requested"});
+  var conf=S.bookings.filter(function(b){return b.status==="Confirmed"});
+  body='<div class="callout"><div><b>Agency side.</b> This is the scheduler\'s screen for filling requests. It warns you before you double-book an interpreter.</div></div>'+
+  '<section class="card"><div class="card-head"><h2>Needs an interpreter</h2><span class="eyebrow">'+open.length+' open</span></div><div class="list">'+(open.length?open.map(function(b){
+   return '<div class="item">'+dateBox(b.date)+'<div class="body"><div class="top"><b>'+esc(b.setting)+' &middot; '+esc(b.mode)+sampleTag(b)+'</b>'+(b.cdi?'<span class="chip">CDI team</span>':'')+'</div>'+
+   '<div class="meta when">'+fmtTime(b.start)+'&ndash;'+fmtTime(b.end)+' &middot; '+esc(b.place)+' &middot; '+esc(b.pref)+'</div>'+
+   '<div id="warn-'+b.id+'"></div>'+
+   '<label class="f" for="as-'+b.id+'">Assign<select id="as-'+b.id+'">'+S.interpreters.map(function(i){return '<option value="'+i.id+'">'+esc(i.name)+' ('+esc(i.certs.join(", "))+')</option>'}).join("")+'</select></label>'+
+   '<div class="btns"><button class="btn small" data-act="assign" data-id="'+b.id+'">Assign &amp; confirm</button></div></div></div>'}).join(""):'<p class="empty">Every request is filled.</p>')+'</div></section>'+
+  '<section class="card"><div class="card-head"><h2>Confirmed</h2><span class="eyebrow">'+conf.length+'</span></div><div class="list">'+(conf.length?conf.map(function(b){return '<div class="item">'+dateBox(b.date)+'<div class="body"><div class="top"><b>'+esc(interpName(b.interp))+'</b>'+statusChip(b.status)+'</div><div class="meta when">'+fmtTime(b.start)+'&ndash;'+fmtTime(b.end)+' &middot; '+esc(b.setting)+'</div></div></div>'}).join(""):'<p class="empty">Nothing confirmed yet.</p>')+'</div></section>'+
+  '<section class="card"><h2>Interpreter roster</h2><div class="list">'+S.interpreters.map(function(i){var ini=i.name.split(" ").map(function(w){return w[0]}).join("");return '<div class="item"><div class="avatar" style="'+colorFor(i.name)+'">'+esc(ini)+'</div><div class="body"><div class="top"><b>'+esc(i.name)+sampleTag(i)+'</b></div><div class="chips">'+i.certs.map(function(c){return '<span class="chip">'+esc(c)+'</span>'}).join("")+'</div><div class="meta">'+esc(i.areas)+'</div></div></div>'}).join("")+'</div></section>';
+ }
+ return hero("interpreters","Interpreters","Book without the <span class=\"hl\">phone tag.</span>","Fill it in once. The agency texts or emails you back.")+seg+body+feedbackBox("Interpreters");
+}
+function overlaps(a,b){return a.date===b.date&&a.start<b.end&&b.start<a.end}
+
+/* ---------- TRAVEL ---------- */
+var NEEDS=["Visual fire alarm","Bed shaker alarm","Door-knock light","Captioned TV","Text check-in","ASL tour / guide","Interpreter for an event"];
+function vTravel(){
+ var trips=S.trips.map(function(t){return '<div class="item">'+dateBox(t.depart)+'<div class="body"><div class="top"><b>'+esc(t.dest)+sampleTag(t)+'</b>'+statusChip(t.status)+'</div><div class="meta when">'+fmtDate(t.depart)+' &ndash; '+fmtDate(t.ret)+' &middot; '+t.people+' traveler'+(t.people==1?"":"s")+'</div><div class="chips">'+t.needs.map(function(n){return '<span class="chip">'+esc(n)+'</span>'}).join("")+'</div>'+(t.notes?'<div class="meta">'+esc(t.notes)+'</div>':'')+'</div></div>'}).join("")||'<p class="empty">No trips yet.</p>';
+ var stays=S.stays.map(function(s){return '<div class="item"><div class="avatar" style="'+colorFor(s.name)+'">'+icon("hotel")+'</div><div class="body"><div class="top"><b>'+esc(s.name)+sampleTag(s)+'</b><span class="meta">'+esc(s.city)+'</span></div><div class="chips">'+s.feat.map(function(f){return '<span class="chip">'+esc(f)+'</span>'}).join("")+'</div><div class="meta">Tip: '+esc(s.tip)+'</div></div></div>'}).join("");
+ return hero("travel","Travel","Trips that <span class=\"hl\">just work.</span>","Tell us where and what you need. A planner books stays that actually have the alert kit, and finds ASL tours.")+
+ '<section class="card"><h2>Ask for trip help</h2><form data-form="trip">'+
+ '<label class="f" for="tr-dest">Where to<input id="tr-dest" required placeholder="City, state"></label>'+
+ '<div class="row"><label class="f" for="tr-dep">Leave<input id="tr-dep" type="date" required value="'+iso(30)+'"></label><label class="f" for="tr-ret">Return<input id="tr-ret" type="date" required value="'+iso(33)+'"></label></div>'+
+ '<label class="f" for="tr-ppl">Travelers<input id="tr-ppl" type="number" min="1" max="20" value="2"></label>'+
+ '<div class="flabel">What you need<div class="checks">'+NEEDS.map(function(n,i){return '<label><input type="checkbox" id="tr-n'+i+'" value="'+esc(n)+'"'+(i<2?" checked":"")+'> '+esc(n)+'</label>'}).join("")+'</div></div>'+
+ '<label class="f" for="tr-notes">Anything else<textarea id="tr-notes" placeholder="Budget, flights, places you want to see"></textarea></label>'+
+ '<div class="btns"><button class="btn" type="submit">Send to planner &rarr;</button></div></form></section>'+
+ '<section class="card"><div class="card-head"><h2>My trips</h2><span class="eyebrow">'+S.trips.length+'</span></div><div class="list">'+trips+'</div></section>'+
+ '<section class="card"><h2>Message for any hotel</h2><p class="lede">Copy this into the hotel\'s email or chat so the room is ready before you arrive.</p><div class="script" id="hotelScript">'+esc(hotelScript())+'</div><div class="btns"><button class="btn small" data-act="copyScript">Copy message</button></div></section>'+
+ '<section class="card"><div class="card-head"><h2>Vetted stays</h2><span class="eyebrow">Checked by Deaf travelers</span></div><div class="list">'+stays+'</div></section>'+
+ feedbackBox("Travel");
+}
+function hotelScript(){var t=S.trips[S.trips.length-1];
+ return "Hello,\n\nI am Deaf and have a reservation"+(t?" from "+fmtDate(t.depart)+" to "+fmtDate(t.ret):"")+". Please have these ready in my room before I check in:\n\n- ADA hearing-accessible kit (visual fire alarm, bed shaker alarm, door-knock light)\n- TV with closed captions turned on\n\nPlease contact me by text or email, not by phone call. If there is a fire alarm or emergency, please make sure staff knows to come to my door.\n\nThank you!"}
+
+/* ---------- EVENTS ---------- */
+var ETYPES=["All","Social","Class","Faith","Sports","Advocacy"];
+function vEvents(){
+ var list=upcoming(S.events).filter(function(e){return ui.eventFilter==="All"||e.type===ui.eventFilter});
+ return hero("events","Community","Find <span class=\"hl\">your people.</span>","One calendar instead of ten Facebook groups.")+
+ '<div class="filters" role="group" aria-label="Filter events">'+ETYPES.map(function(t){return '<button class="filter" data-efilter="'+t+'" aria-pressed="'+(ui.eventFilter===t)+'">'+t+'</button>'}).join("")+'</div>'+
+ '<section class="card"><div class="list">'+(list.length?list.map(function(e){return '<div class="item">'+dateBox(e.date)+'<div class="body"><div class="top"><b>'+esc(e.title)+sampleTag(e)+'</b><span class="chip plain">'+esc(e.type)+'</span></div><div class="meta when">'+fmtDate(e.date)+' &middot; '+fmtTime(e.time)+' &middot; '+esc(e.where)+'</div>'+(e.note?'<div>'+esc(e.note)+'</div>':'')+'<div class="meta">Hosted by '+esc(e.host)+'</div></div></div>'}).join(""):'<p class="empty">Nothing in this category yet.</p>')+'</div>'+
+ '<details class="add"><summary>Post an event</summary><form data-form="event">'+
+ '<label class="f" for="ev-title">Event name<input id="ev-title" required></label>'+
+ '<div class="row"><label class="f" for="ev-type">Type<select id="ev-type">'+ETYPES.slice(1).map(function(t){return '<option>'+t+'</option>'}).join("")+'</select></label><label class="f" for="ev-host">Host<input id="ev-host" placeholder="Who is running it"></label></div>'+
+ '<div class="row"><label class="f" for="ev-date">Date<input id="ev-date" type="date" required value="'+iso(14)+'"></label><label class="f" for="ev-time">Time<input id="ev-time" type="time" required value="18:00"></label></div>'+
+ '<label class="f" for="ev-where">Where<input id="ev-where" required></label>'+
+ '<label class="f" for="ev-note">Details<textarea id="ev-note" placeholder="Interpreted? Voice-off? Cost?"></textarea></label>'+
+ '<div class="btns"><button class="btn small" type="submit">Post event</button></div></form></details></section>'+
+ feedbackBox("Events");
+}
+
+/* ---------- PLACES ---------- */
+var BADGES=["Text ordering","Staff signs","Captions on TVs","Visual pager","Text when ready","Writes notes happily","Visual alarm","Pay at window, skip speaker"];
+function stars(n){var s="";for(var i=1;i<=5;i++)s+=i<=n?"★":"☆";return '<span class="stars" aria-label="'+n+' of 5 stars">'+s+'</span>'}
+function vPlaces(){
+ var q=ui.placeQuery.toLowerCase();
+ var list=S.places.filter(function(p){return(ui.placeFilter==="All"||p.badges.indexOf(ui.placeFilter)>=0)&&(!q||(p.name+" "+p.kind+" "+p.note).toLowerCase().indexOf(q)>=0)}).sort(function(a,b){return(a.dist==null?99:a.dist)-(b.dist==null?99:b.dist)});
+ var walking=ui.nearIdx>=0;
+ return hero("places","Places","Know <span class=\"hl\">before you go.</span>","Reviews from Deaf customers on who texts, who signs, and who turns the captions on.",
+   '<div class="btns" style="margin-top:4px"><button class="btn dark small" data-act="walk">'+(walking?'Keep walking &rarr;':'Try nearby alerts')+'</button>'+(walking?'<button class="btn small" style="background:transparent;color:inherit;box-shadow:inset 0 0 0 2px currentColor" data-act="stopWalk">Stop</button>':'')+'</div><p class="meta" style="color:inherit;opacity:.8">Demo: pretends you are walking past places. The real app uses your phone\'s location.</p>')+
+ '<label class="f" for="pl-q"><span class="sr" style="position:absolute;left:-9999px">Search places</span><input id="pl-q" type="search" placeholder="Search pharmacy, restaurant, name..." value="'+esc(ui.placeQuery)+'" style="background:var(--surface);box-shadow:var(--shadow)"></label>'+
+ '<div class="filters" role="group" aria-label="Filter by feature">'+["All"].concat(BADGES).map(function(b){return '<button class="filter" data-pfilter="'+esc(b)+'" aria-pressed="'+(ui.placeFilter===b)+'">'+esc(b)+'</button>'}).join("")+'</div>'+
+ '<section class="card"><div class="list" id="placeList">'+(list.length?list.map(function(p){return '<div class="item"><div class="avatar" style="'+colorFor(p.kind)+'">'+esc(p.name[0])+'</div><div class="body"><div class="top"><b>'+esc(p.name)+sampleTag(p)+'</b>'+(p.dist!=null?'<span class="dist">'+p.dist+' mi</span>':'')+'</div><div class="meta">'+esc(p.kind)+' &middot; '+stars(p.rating)+'</div><div class="chips">'+p.badges.map(function(b){return '<span class="chip">'+esc(b)+'</span>'}).join("")+'</div>'+(p.note?'<div>'+esc(p.note)+'</div>':'')+'</div></div>'}).join(""):'<p class="empty">No places match. Add one below.</p>')+'</div>'+
+ '<details class="add"><summary>Add a place</summary><form data-form="place">'+
+ '<div class="row"><label class="f" for="pa-name">Name<input id="pa-name" required></label><label class="f" for="pa-kind">Type<input id="pa-kind" placeholder="Restaurant, clinic, store"></label></div>'+
+ '<div class="flabel">What they do well<div class="checks">'+BADGES.map(function(b,i){return '<label><input type="checkbox" id="pa-b'+i+'" value="'+esc(b)+'"> '+esc(b)+'</label>'}).join("")+'</div></div>'+
+ '<label class="f" for="pa-rate">Rating<select id="pa-rate"><option value="5">5 - Great</option><option value="4">4 - Good</option><option value="3">3 - Okay</option><option value="2">2 - Hard</option><option value="1">1 - Avoid</option></select></label>'+
+ '<label class="f" for="pa-note">Tip for others<textarea id="pa-note"></textarea></label>'+
+ '<div class="btns"><button class="btn small" type="submit">Add place</button></div></form></details></section>'+
+ feedbackBox("Places");
+}
+function nearAlert(p){var ft=Math.round(p.dist*5280/50)*50;
+ document.getElementById("alertHost").innerHTML='<div class="near" role="status"><div class="ping">'+icon("places")+'</div><div style="min-width:0;display:flex;flex-direction:column;gap:6px"><b style="font-family:var(--display);font-size:18px;letter-spacing:-.01em">You\'re near '+esc(p.name)+'</b><div class="meta">'+(p.dist<0.5?ft+" ft":p.dist+" mi")+' away &middot; '+esc(p.kind)+'</div><div class="chips">'+p.badges.map(function(b){return '<span class="chip">'+esc(b)+'</span>'}).join("")+'</div>'+(p.note?'<div>'+esc(p.note)+'</div>':'')+'</div><button class="x" data-act="closeAlert" aria-label="Dismiss">&times;</button></div>';
+ try{if(navigator.vibrate)navigator.vibrate([120,60,120])}catch(e){}}
+
+/* ---------- CARDS ---------- */
+var CARDS={
+ "Doctor":["I am Deaf. I need an ASL interpreter for this appointment.","Please write it down or type it for me.","Please face me when you talk. I read lips a little.","Please text me when it is my turn. Do not call my name.","Can you turn on captions for the video visit?"],
+ "Pharmacy":["I am Deaf. Please text me when my prescription is ready.","Please write the directions on paper.","Is there a cheaper generic version?"],
+ "Drive-thru":["I am Deaf. I will order at the window.","Here is my order:","No onions please.","Is my order correct?"],
+ "Office / DMV":["I am Deaf. Please do not call my name. Wave or show me my number.","Can we type back and forth on your screen or my phone?","Do you have a video relay or text line I can use later?"],
+ "Emergency":["I am DEAF. I cannot hear you. Please write or type.","I need help. Please call 911 for me.","I am hurt. Please get help.","Police: I am Deaf. My hands are moving because I sign. I am not a threat."],
+ "Everyday":["Hi! I am Deaf. I sign ASL.","Thank you!","Please write it down.","Can you show me on your phone?","Slow down, please."]
+};
+function vCards(){
+ var cats=Object.keys(CARDS).concat(["My cards"]);
+ var list=ui.cardCat==="My cards"?S.customCards:CARDS[ui.cardCat];
+ return hero("cards","Show-to-talk","Tap a card. <span class=\"hl\">Show the screen.</span>","Big text for counters, clinics and drive-thrus. Flip it so the person across from you can read it.")+
+ '<section class="card"><h2>Type and show</h2><label class="f" for="cd-type"><span class="meta">Type anything, then tap Show big.</span><textarea id="cd-type" placeholder="Your message"></textarea></label><div class="btns"><button class="btn dark" data-act="showTyped">Show big</button><button class="btn ghost" data-act="saveTyped">Save as my card</button></div></section>'+
+ '<div class="filters" role="group" aria-label="Card categories">'+cats.map(function(c){return '<button class="filter" data-ccat="'+esc(c)+'" aria-pressed="'+(ui.cardCat===c)+'">'+esc(c)+'</button>'}).join("")+'</div>'+
+ '<div class="phrases">'+(list.length?list.map(function(t,i){return '<button class="phrase" data-show="'+i+'"><span>'+esc(t)+'</span><small>Tap to show</small></button>'}).join(""):'<p class="empty">No saved cards yet. Type one above and tap Save.</p>')+'</div>'+
+ feedbackBox("Cards");
+}
+var wake=null;
+function showBig(text){
+ var size=text.length<40?68:text.length<90?48:36;
+ document.getElementById("overlay").innerHTML='<div class="show" role="dialog" aria-modal="true" aria-label="Message shown large"><div class="text" id="bigText" style="font-size:'+size+'px">'+esc(text)+'</div><div class="bar"><button class="btn" data-act="flip">Flip for them</button><button class="btn ghost" data-act="bigger">A+</button><button class="btn ghost" data-act="smaller">A&minus;</button><button class="btn ghost" data-act="closeBig">Close</button></div></div>';
+ try{if(navigator.wakeLock)navigator.wakeLock.request("screen").then(function(l){wake=l}).catch(function(){})}catch(e){}
+}
+function closeBig(){document.getElementById("overlay").innerHTML="";try{if(wake){wake.release();wake=null}}catch(e){}}
+
+/* ---------- FREE STUFF & DEALS ---------- */
+var WHO=["Deaf","Hard of hearing","DeafBlind","Low income","Working / job hunting"];
+var RCATS=["All","Free equipment","Phone & video","Free by law","Deals & discounts","Shops","Learn ASL"];
+var RES=[
+ {cat:"Free equipment",name:"Your state's equipment program (TEDP)",who:["Deaf","Hard of hearing","DeafBlind"],get:"Free or low-cost phones, captioned phones, signalers and alert devices. Some states also give tablets.",how:"Find your state's program on the TEDPA directory, then fill out their application. Many need a short form signed by a doctor or audiologist.",url:"https://www.tedpa.org"},
+ {cat:"Free equipment",name:"iCanConnect (DeafBlind program)",who:["DeafBlind"],get:"Free iPads, iPhones, computers, braille displays plus free training. Funded by the FCC.",how:"For people with combined hearing and vision loss who meet income rules. Apply through the website.",url:"https://www.icanconnect.org"},
+ {cat:"Free equipment",name:"Vocational Rehabilitation (VR)",who:["Deaf","Hard of hearing","DeafBlind","Working / job hunting"],get:"Can pay for tech you need for work or school (laptop, tablet, alert devices), job training and job placement.",how:"Contact your state VR office and ask for a Deaf services counselor. In Iowa that is Iowa Vocational Rehabilitation Services.",url:""},
+ {cat:"Free equipment",name:"Free bed-shaker smoke alarms",who:["Deaf","Hard of hearing","DeafBlind","Low income"],get:"Some fire departments and Red Cross chapters install smoke alarms with strobe lights or bed shakers for free.",how:"Contact your local fire department (non-emergency) or Red Cross chapter and ask about alarms for Deaf residents.",url:"https://www.redcross.org"},
+ {cat:"Phone & video",name:"Video relay service (VRS)",who:["Deaf","DeafBlind"],get:"Free ASL video calls to hearing people, a free personal phone number, and a free videophone app or device. Paid for by the FCC, not you.",how:"Sign up with any provider (Sorenson, ZP, Convo and others). You can switch providers anytime.",url:"https://www.fcc.gov/consumers/guides/video-relay-services"},
+ {cat:"Phone & video",name:"Free captioned phones",who:["Hard of hearing"],get:"A phone that shows captions of what the caller says, free with a certification from a hearing professional.",how:"Providers include CaptionCall, ClearCaptions and CapTel. They help with the certification form.",url:"https://www.fcc.gov/consumers/guides/internet-protocol-ip-captioned-telephone-service"},
+ {cat:"Phone & video",name:"Lifeline phone or internet discount",who:["Low income"],get:"A monthly discount on phone or internet service from the FCC.",how:"Check if you qualify (SNAP, Medicaid, SSI and others count) on the official site.",url:"https://www.lifelinesupport.org"},
+ {cat:"Phone & video",name:"Free captioning apps",who:["Deaf","Hard of hearing"],get:"Live captions of people talking near you. Live Transcribe on Android and Live Captions on iPhone are built in or free.",how:"Android: install Live Transcribe. iPhone: Settings > Accessibility > Live Captions.",url:""},
+ {cat:"Free by law",name:"Hotel alert kits",who:["Deaf","Hard of hearing","DeafBlind"],get:"Hotels must have hearing-accessible rooms or kits (visual fire alarm, door-knock light, phone signal). No charge.",how:"Ask when you book, in writing. The Travel tab has a message you can copy.",url:"https://www.ada.gov"},
+ {cat:"Free by law",name:"Movie theater captions",who:["Deaf","Hard of hearing"],get:"Digital movie theaters must have caption devices you can borrow for free.",how:"Ask at the box office for a caption device (often called CaptiView). Check that it is charged before the movie starts.",url:"https://www.ada.gov"},
+ {cat:"Free by law",name:"Interpreters at the doctor and hospital",who:["Deaf","DeafBlind"],get:"Doctors, hospitals and most businesses must provide and pay for an interpreter when needed. They cannot charge you.",how:"Ask when you make the appointment. Write it down and keep a copy. If they refuse, you can file an ADA complaint.",url:"https://www.ada.gov"},
+ {cat:"Deals & discounts",name:"National parks Access Pass",who:["Deaf","Hard of hearing","DeafBlind"],get:"A free lifetime pass to national parks and federal recreation sites for US residents with a permanent disability.",how:"Free in person at a park with proof of disability. Ordering online or by mail has a small processing fee.",url:"https://www.nps.gov/planyourvisit/passes.htm"},
+ {cat:"Deals & discounts",name:"Amtrak disability discount",who:["Deaf","Hard of hearing","DeafBlind"],get:"A discount on most train fares for passengers with a disability.",how:"Pick the passenger-with-disability fare when booking. Bring proof of disability on the trip.",url:"https://www.amtrak.com"},
+ {cat:"Deals & discounts",name:"Reduced bus and transit fare",who:["Deaf","Hard of hearing","DeafBlind","Low income"],get:"Most city bus systems give reduced fares to riders with a disability.",how:"Ask your local transit office for a reduced-fare ID card.",url:""},
+ {cat:"Deals & discounts",name:"Over-the-counter hearing aids",who:["Hard of hearing"],get:"Since 2022 adults with mild to moderate loss can buy hearing aids without a prescription, for much less than before.",how:"Sold at pharmacies and big stores. Compare return policies before buying.",url:""},
+ {cat:"Shops",name:"Specialty Deaf product stores",who:["Deaf","Hard of hearing","DeafBlind"],get:"Alert systems, bed shakers, doorbell flashers, vibrating watches and baby-cry signalers.",how:"Examples: Harris Communications and Silent Call. Check if your state equipment program will pay before you buy.",url:"https://www.harriscomm.com"},
+ {cat:"Learn ASL",name:"Lifeprint (ASL University)",who:["Deaf","Hard of hearing","DeafBlind"],get:"Free ASL lessons and dictionary. Good for hearing family, friends and coworkers.",how:"Send the link to people who want to learn.",url:"https://www.lifeprint.com"}
+];
+var CATIC={"Free equipment":"free","Phone & video":"interp","Free by law":"person","Deals & discounts":"travel","Shops":"places","Learn ASL":"cards"};
+function vFree(){
+ var list=RES.filter(function(r){return(ui.rcat==="All"||r.cat===ui.rcat)&&(!ui.who.length||ui.who.some(function(w){return r.who.indexOf(w)>=0}))});
+ return hero("free","Free stuff &amp; deals","Free things <span class=\"hl\">nobody tells you about.</span>","The FCC, big companies and the law already pay for a lot of this.")+
+ '<section class="card"><h3>Show me what fits</h3><div class="filters wrapit" role="group" aria-label="Who is this for">'+WHO.map(function(w){return '<button class="filter" data-who="'+esc(w)+'" aria-pressed="'+(ui.who.indexOf(w)>=0)+'">'+esc(w)+'</button>'}).join("")+'</div><p class="meta">Pick any that apply, or none to see everything.</p></section>'+
+ '<div class="filters" role="group" aria-label="Category">'+RCATS.map(function(c){return '<button class="filter" data-rcat="'+esc(c)+'" aria-pressed="'+(ui.rcat===c)+'">'+esc(c)+'</button>'}).join("")+'</div>'+
+ '<section class="card"><div class="card-head"><h2>'+(ui.rcat==="All"?"Everything":esc(ui.rcat))+'</h2><span class="eyebrow">'+list.length+' found</span></div><div class="list">'+(list.length?list.map(function(r){return '<div class="item"><div class="avatar" style="'+colorFor(r.cat)+'">'+icon(CATIC[r.cat])+'</div><div class="body"><div class="top"><b>'+esc(r.name)+'</b></div><div>'+esc(r.get)+'</div><div class="meta"><b>How to get it:</b> '+esc(r.how)+'</div><div class="chips">'+r.who.map(function(w){return '<span class="chip">'+esc(w)+'</span>'}).join("")+'</div>'+(r.url?'<a class="link" href="'+r.url+'" target="_blank" rel="noopener">'+esc(r.url.replace(/^https:\/\/(www\.)?/,""))+' &rarr;</a>':'')+'</div></div>'}).join(""):'<p class="empty">Nothing matches. Clear a filter.</p>')+'</div>'+
+ '<p class="meta">Programs and rules change. Check each one before telling someone they qualify.</p></section>'+
+ feedbackBox("Free stuff");
+}
+
+/* ---------- ROUTER ---------- */
+var RENDER={home:vHome,interpreters:vInterp,travel:vTravel,events:vEvents,places:vPlaces,cards:vCards,free:vFree};
+function current(){var h=location.hash.replace("#","");return RENDER[h]?h:"home"}
+function render(){
+ var v=current();
+ document.body.setAttribute("data-sec",secOf(v));
+ document.getElementById("view").innerHTML=RENDER[v]();
+ document.getElementById("tabs").innerHTML=VIEWS.map(function(x){return '<a href="#'+x.id+'"'+(x.id===v?' aria-current="page"':'')+'>'+icon(x.ic)+x.label+'</a>'}).join("");
+}
+function go(v){if(location.hash==="#"+v)render();else location.hash=v;window.scrollTo(0,0)}
+window.addEventListener("hashchange",function(){ui.nearIdx=-1;document.getElementById("alertHost").innerHTML="";render();window.scrollTo(0,0)});
+
+function val(id){var e=document.getElementById(id);return e?e.value.trim():""}
+function checked(prefix,n){var out=[];for(var i=0;i<n;i++){var e=document.getElementById(prefix+i);if(e&&e.checked)out.push(e.value)}return out}
+
+document.addEventListener("submit",function(ev){
+ var f=ev.target,k=f.getAttribute("data-form");if(!k)return;ev.preventDefault();
+ if(k==="feedback"){var t=f.querySelector("textarea").value.trim();if(!t){toast("Type a note first.");return}
+  S.feedback.push({where:f.getAttribute("data-where"),text:t,at:new Date().toLocaleString()});save();f.querySelector("textarea").value="";toast("Note saved. See them all on Home.")}
+ if(k==="booking"){if(val("bk-end")<=val("bk-start")){toast("End time must be after start time.");return}
+  S.bookings.push({id:uid(),date:val("bk-date"),start:val("bk-start"),end:val("bk-end"),place:val("bk-place"),mode:val("bk-mode"),setting:val("bk-setting"),pref:val("bk-pref"),cdi:document.getElementById("bk-cdi").checked,notes:val("bk-notes"),status:"Requested",interp:""});
+  save();ui.interpTab="mine";render();toast("Request sent. Status: Requested.")}
+ if(k==="trip"){if(val("tr-ret")<val("tr-dep")){toast("Return date is before the leave date.");return}
+  S.trips.push({id:uid(),dest:val("tr-dest"),depart:val("tr-dep"),ret:val("tr-ret"),people:+val("tr-ppl")||1,needs:checked("tr-n",NEEDS.length),notes:val("tr-notes"),status:"Planning"});save();render();toast("Sent to the planner.")}
+ if(k==="event"){S.events.push({id:uid(),title:val("ev-title"),type:val("ev-type"),date:val("ev-date"),time:val("ev-time"),where:val("ev-where"),host:val("ev-host")||"Community member",note:val("ev-note")});save();ui.eventFilter="All";render();toast("Event posted.")}
+ if(k==="place"){S.places.unshift({id:uid(),name:val("pa-name"),kind:val("pa-kind")||"Place",badges:checked("pa-b",BADGES.length),note:val("pa-note"),rating:+val("pa-rate")});save();ui.placeFilter="All";ui.placeQuery="";render();toast("Place added.")}
+});
+
+document.addEventListener("input",function(ev){
+ if(ev.target.id==="pl-q"){ui.placeQuery=ev.target.value;var pos=ev.target.selectionStart;render();var e=document.getElementById("pl-q");e.focus();try{e.setSelectionRange(pos,pos)}catch(x){}}
+});
+
+function copyText(text,okMsg){
+ try{navigator.clipboard.writeText(text).then(function(){toast(okMsg)},function(){toast("Copy blocked here. Press and hold the text to copy it.")})}catch(e){toast("Copy blocked here. Press and hold the text to copy it.")}
+}
+
+var resetArmed=false,clearArmed=false;
+document.addEventListener("click",function(ev){
+ var t=ev.target.closest("button,[data-go]");if(!t)return;
+ if(t.dataset.go){go(t.dataset.go);return}
+ if(t.dataset.interp){ui.interpTab=t.dataset.interp;render();return}
+ if(t.dataset.efilter){ui.eventFilter=t.dataset.efilter;render();return}
+ if(t.dataset.pfilter){ui.placeFilter=t.dataset.pfilter;render();return}
+ if(t.dataset.who){var w=t.dataset.who,ix=ui.who.indexOf(w);if(ix>=0)ui.who.splice(ix,1);else ui.who.push(w);render();return}
+ if(t.dataset.rcat){ui.rcat=t.dataset.rcat;render();return}
+ if(t.dataset.ccat){ui.cardCat=t.dataset.ccat;render();return}
+ if(t.dataset.show!=null){var list=ui.cardCat==="My cards"?S.customCards:CARDS[ui.cardCat];showBig(list[+t.dataset.show]);return}
+ var a=t.dataset.act;if(!a)return;
+ if(a==="assign"){var b=S.bookings.filter(function(x){return x.id===t.dataset.id})[0];var who=document.getElementById("as-"+b.id).value;
+  var clash=S.bookings.filter(function(x){return x.id!==b.id&&x.status==="Confirmed"&&x.interp===who&&overlaps(x,b)})[0];
+  if(clash&&t.dataset.force!=="1"){document.getElementById("warn-"+b.id).innerHTML='<div class="warnbox">'+esc(interpName(who))+' is already booked '+fmtTime(clash.start)+'&ndash;'+fmtTime(clash.end)+' that day. Pick someone else, or tap Assign again to book anyway.</div>';t.dataset.force="1";return}
+  b.interp=who;b.status="Confirmed";save();render();toast("Confirmed with "+interpName(who)+".");return}
+ if(a==="cancelBooking"){var c=S.bookings.filter(function(x){return x.id===t.dataset.id})[0];c.status="Cancelled";save();render();toast("Request cancelled.");return}
+ if(a==="walk"){var near=S.places.filter(function(p){return p.dist!=null}).sort(function(x,y){return x.dist-y.dist});if(!near.length){toast("No places with a location yet.");return}ui.nearIdx=(ui.nearIdx+1)%near.length;render();nearAlert(near[ui.nearIdx]);return}
+ if(a==="stopWalk"){ui.nearIdx=-1;document.getElementById("alertHost").innerHTML="";render();return}
+ if(a==="closeAlert"){document.getElementById("alertHost").innerHTML="";return}
+ if(a==="copyScript"){copyText(hotelScript(),"Message copied.");return}
+ if(a==="copyFeedback"){copyText(S.feedback.map(function(f){return "["+f.where+"] "+f.text}).join("\n"),"Notes copied.");return}
+ if(a==="clearFeedback"){if(!clearArmed){clearArmed=true;t.textContent="Tap again to clear";setTimeout(function(){clearArmed=false},4000);return}S.feedback=[];save();clearArmed=false;render();toast("Notes cleared.");return}
+ if(a==="reset"){if(!resetArmed){resetArmed=true;t.textContent="Tap again to reset everything";setTimeout(function(){resetArmed=false},4000);return}var fb=S.feedback;S=seed();S.feedback=fb;save();resetArmed=false;render();toast("Demo data reset. Your notes were kept.");return}
+ if(a==="showTyped"){var tx=val("cd-type");if(!tx){toast("Type a message first.");return}showBig(tx);return}
+ if(a==="saveTyped"){var ty=val("cd-type");if(!ty){toast("Type a message first.");return}S.customCards.push(ty);save();ui.cardCat="My cards";render();toast("Saved to My cards.");return}
+ if(a==="flip"){document.getElementById("bigText").classList.toggle("flip");return}
+ if(a==="bigger"||a==="smaller"){var el=document.getElementById("bigText");var s=parseInt(el.style.fontSize,10)+(a==="bigger"?8:-8);el.style.fontSize=Math.max(20,Math.min(120,s))+"px";return}
+ if(a==="closeBig"){closeBig();return}
+});
+document.addEventListener("keydown",function(e){if(e.key==="Escape")closeBig()});
+
+render();
+})();
+</script>
+</body></html>
